@@ -48,6 +48,9 @@ var (
 	// at package init time.
 	LineBreak = "\n"
 
+	// CommentBreak is the separator between a group or a key and its comment.
+	CommentBreak = LineBreak
+
 	// Variable regexp pattern: %(variable)s
 	varPattern = regexp.MustCompile(`%\(([^\)]+)\)s`)
 
@@ -68,6 +71,7 @@ var (
 func init() {
 	if runtime.GOOS == "windows" {
 		LineBreak = "\r\n"
+		CommentBreak = LineBreak
 	}
 }
 

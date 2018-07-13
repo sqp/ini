@@ -238,11 +238,9 @@ func (f *File) writeToBuffer(indent string) (*bytes.Buffer, error) {
 		sec := f.Section(sname)
 		if len(sec.Comment) > 0 {
 			if sec.Comment[0] != '#' && sec.Comment[0] != ';' {
-				sec.Comment = "; " + sec.Comment
-			} else {
-				sec.Comment = sec.Comment[:1] + " " + strings.TrimSpace(sec.Comment[1:])
+				sec.Comment = "#" + sec.Comment
 			}
-			if _, err := buf.WriteString(sec.Comment + LineBreak); err != nil {
+			if _, err := buf.WriteString(sec.Comment + CommentBreak); err != nil {
 				return nil, err
 			}
 		}
@@ -301,15 +299,10 @@ func (f *File) writeToBuffer(indent string) (*bytes.Buffer, error) {
 					buf.WriteString(indent)
 				}
 				if key.Comment[0] != '#' && key.Comment[0] != ';' {
-					key.Comment = "; " + key.Comment
-				} else {
-					key.Comment = key.Comment[:1] + " " + strings.TrimSpace(key.Comment[1:])
+					key.Comment = "#" + key.Comment
 				}
 
-				// Support multiline comments
-				key.Comment = strings.Replace(key.Comment, "\n", "\n; ", -1)
-
-				if _, err := buf.WriteString(key.Comment + LineBreak); err != nil {
+				if _, err := buf.WriteString(key.Comment + CommentBreak); err != nil {
 					return nil, err
 				}
 			}
